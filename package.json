@@ -1,13 +1,13 @@
 {
-  "name": "css-mqpacker",
+  "name": "lipemat-css-mqpacker",
   "description": "Pack same CSS media query rules into one using PostCSS",
-  "version": "7.0.0",
-  "author": "Kyo Nagashima <hail2u@gmail.com> (https://kyonagashima.com/)",
+  "version": "8.0.0",
+  "author": "Mat Lipe",
   "bin": {
     "mqpacker": "./bin/mqpacker.js"
   },
   "bugs": {
-    "url": "https://github.com/hail2u/node-css-mqpacker/issues"
+    "url": "https://github.com/lipemat/css-mqpacker/issues"
   },
   "dependencies": {
     "minimist": "^1.2.0",
@@ -16,7 +16,7 @@
   "devDependencies": {
     "nodeunit": "^0.11.3"
   },
-  "homepage": "https://github.com/hail2u/node-css-mqpacker",
+  "homepage": "https://github.com/lipemat/css-mqpacker",
   "keywords": [
     "css",
     "media",
@@ -27,7 +27,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hail2u/node-css-mqpacker.git"
+    "url": "https://github.com/lipemat/css-mqpacker.git"
   },
   "scripts": {
     "test": "nodeunit test"

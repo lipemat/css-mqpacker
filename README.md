@@ -14,7 +14,7 @@ A well componentized CSS file may have same media queries that can merge:
   width: 240px;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (max-width: 768px) {
   .foo {
     width: 576px;
   }
@@ -24,7 +24,7 @@ A well componentized CSS file may have same media queries that can merge:
   width: 160px;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (max-width: 768px) {
   .bar {
     width: 384px;
   }
@@ -42,7 +42,7 @@ This PostCSS plugin packs exactly same media queries:
   width: 160px;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (max-width: 768px) {
   .foo {
     width: 576px;
   }
@@ -56,7 +56,7 @@ This PostCSS plugin packs exactly same media queries:
 INSTALL
 -------
 
-    $ npm install css-mqpacker
+    $ npm install lipemat-css-mqpacker
 
 
 USAGE
@@ -74,7 +74,7 @@ const postcss = require("postcss");
 
 postcss([
   require("autoprefixer-core")(),
-  require("css-mqpacker")()
+  require("lipemat-css-mqpacker")()
 ]).process(fs.readFileSync("from.css", "utf8")).then(function (result) {
   console.log(result.css);
 });
@@ -94,7 +94,7 @@ process its content, and output processed CSS to STDOUT:
 "use strict";
 
 const fs = require("fs");
-const mqpacker = require("css-mqpacker");
+const mqpacker = require("lipemat-css-mqpacker");
 
 console.log(mqpacker.pack(fs.readFileSync("from.css", "utf8"), {
   from: "from.css",
@@ -117,7 +117,7 @@ This package also installs a command line interface.
       Pack same CSS media query rules into one using PostCSS
     
     Options:
-      -s, --sort       Sort “min-width” queries.
+      -s, --sort       Sort “max-width” queries.
           --sourcemap  Create source map file.
       -h, --help       Show this message.
           --version    Print version information.
@@ -143,8 +143,8 @@ OPTIONS
 ### sort
 
 By default, CSS MQPacker pack and order media queries as they are defined ([the
-“first win” algorithm][1]). If you want to sort media queries automatically,
-pass `sort: true` to this module.
+“first win” algorithm][1]). If you want to turn off the sort of media queries automatically,
+pass `sort: false` to this module.
 
 ```javascript
 postcss([
@@ -154,7 +154,7 @@ postcss([
 ]).process(css);
 ```
 
-Currently, this option only supports `min-width` queries with specific units
+Currently, this option only supports `max-width` queries with specific units
 (`ch`, `em`, `ex`, `px`, and `rem`). If you want to do more, you need to create
 your own sorting function and pass it to this module like this:
 
@@ -190,7 +190,7 @@ You can specify both at the same time.
 
 ```javascript
 const fs = require("fs");
-const mqpacker = require("css-mqpacker");
+const mqpacker = require("lipemat-css-mqpacker");
 
 const result = mqpacker.pack(fs.readFileSync("from.css", "utf8"), {
   from: "from.css",
@@ -219,7 +219,7 @@ CSS MQPacker changes rulesets’ order. This means the processed CSS will have a
 unexpected cascading order. For example:
 
 ```css
-@media (min-width: 640px) {
+@media (max-width: 640px) {
   .foo {
     width: 300px;
   }
@@ -237,7 +237,7 @@ Becomes:
   width: 400px;
 }
 
-@media (min-width: 640px) {
+@media (max-width: 640px) {
   .foo {
     width: 300px;
   }
@@ -263,7 +263,7 @@ CSS MQPacker is implemented with the “first win” algorithm. This means:
   width: 10px;
 }
 
-@media (min-width: 640px) {
+@media (max-width: 640px) {
   .foo {
     width: 150px;
   }
@@ -273,13 +273,13 @@ CSS MQPacker is implemented with the “first win” algorithm. This means:
   width: 20px;
 }
 
-@media (min-width: 320px) {
+@media (max-width: 320px) {
   .bar {
     width: 200px;
   }
 }
 
-@media (min-width: 640px) {
+@media (max-width: 640px) {
   .bar {
     width: 300px;
   }
@@ -297,7 +297,7 @@ Becomes:
   width: 20px;
 }
 
-@media (min-width: 640px) {
+@media (max-width: 640px) {
   .foo {
     width: 150px;
   }
@@ -306,25 +306,21 @@ Becomes:
   }
 }
 
-@media (min-width: 320px) {
+@media (max-width: 320px) {
   .bar {
     width: 200px;
   }
 }
 ```
 
-This breaks cascading order of `.bar`, and `.bar` will be displayed in `200px`
-instead of `300px` even if a viewport wider than `640px`.
+If you use simple `max-width` queries only, the default sort will help.
 
-I suggest defining a query order on top of your CSS:
+Otherwise, you may set `sort` to `false` and define the order explicitly at the top of your postcss.
 
 ```css
-@media (min-width: 320px) { /* Wider than 320px */ }
-@media (min-width: 640px) { /* Wider than 640px */ }
+@media (max-width: 320px) { /* Wider than 320px */ }
+@media (max-width: 640px) { /* Wider than 640px */ }
 ```
-
-If you use simple `min-width` queries only, [the `sort` option][4] can help.
-
 
 ### Multiple Classes
 
@@ -332,19 +328,19 @@ CSS MQPacker works only with CSS. This may break CSS applying order to an
 elements that have multiple classes. For example:
 
 ```css
-@media (min-width: 320px) {
+@media (max-width: 320px) {
   .foo {
     width: 100px;
   }
 }
 
-@media (min-width: 640px) {
+@media (max-width: 640px) {
   .bar {
     width: 200px;
   }
 }
 
-@media (min-width: 320px) {
+@media (max-width: 320px) {
   .baz {
     width: 300px;
   }
@@ -354,7 +350,7 @@ elements that have multiple classes. For example:
 Becomes:
 
 ```css
-@media (min-width: 320px) {
+@media (max-width: 320px) {
   .foo {
     width: 100px;
   }
@@ -363,7 +359,7 @@ Becomes:
   }
 }
 
-@media (min-width: 640px) {
+@media (max-width: 640px) {
   .bar {
     width: 200px;
   }
@@ -374,13 +370,6 @@ The result looks good. However, if an HTML element has `class="bar baz"` and
 viewport width larger than `640px`, that element `width` incorrectly set to
 `200px` instead of `300px`. This problem cannot be resolved only with CSS, so be
 careful!
-
-
-LICENSE
--------
-
-MIT: http://hail2u.mit-license.org/2014
-
 
 [1]: #the-first-win-algorithm
 [2]: #options
