@@ -135,7 +135,7 @@ const sortQueryLists = (queryLists, sort) => {
 
 module.exports = postcss.plugin(pkg.name, options => {
   const opts = {
-    sort: false,
+    sort: true,
     ...options
   };
 
