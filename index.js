@@ -93,21 +93,27 @@ const inspectLength = length => {
   return newNum;
 };
 
-const pickMinimumMinWidth = expressions => {
-  const minWidths = [];
+function pickMaxWidthLengths(expressions) {
+	const maxWidths = [];
 
-  expressions.forEach(feature => {
-    let minWidth = feature["min-width"];
+	expressions.forEach(feature => {
+		let minWidth = feature["max-width"];
 
-    if (!minWidth || feature.not || feature.print) {
-      minWidth = [null];
-    }
+		if (!minWidth || feature.not || feature.print) {
+			minWidth = [null];
+		}
 
-    minWidths.push(minWidth.map(inspectLength).sort((a, b) => b - a)[0]);
-  });
+		maxWidths.push(
+			minWidth.map(inspectLength).sort((a, b) => {
+				return b - a;
+			})[0]
+		);
+	});
 
-  return minWidths.sort((a, b) => a - b)[0];
-};
+	return maxWidths.sort((a, b) => {
+		return a - b;
+	})[0];
+}
 
 const sortQueryLists = (queryLists, sort) => {
   const mapQueryLists = [];
@@ -127,9 +133,9 @@ const sortQueryLists = (queryLists, sort) => {
   return mapQueryLists
     .map((e, i) => ({
       index: i,
-      value: pickMinimumMinWidth(e)
+      value: pickMaxWidthLengths(e)
     }))
-    .sort((a, b) => a.value - b.value)
+    .sort((a, b) => b.value - a.value)
     .map(e => queryLists[e.index]);
 };
 
