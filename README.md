@@ -56,13 +56,6 @@ This PostCSS plugin packs exactly same media queries:
 }
 ```
 
-
-INSTALL
--------
-
-    $ npm install lipemat-css-mqpacker
-
-
 USAGE
 -----
 
@@ -78,7 +71,7 @@ const postcss = require("postcss");
 
 postcss([
   require("autoprefixer-core")(),
-  require("lipemat-css-mqpacker")()
+  require("@lipemat/css-mqpacker")()
 ]).process(fs.readFileSync("from.css", "utf8")).then(function (result) {
   console.log(result.css);
 });
@@ -98,7 +91,7 @@ process its content, and output processed CSS to STDOUT:
 "use strict";
 
 const fs = require("fs");
-const mqpacker = require("lipemat-css-mqpacker");
+const mqpacker = require("@lipemat/css-mqpacker");
 
 console.log(mqpacker.pack(fs.readFileSync("from.css", "utf8"), {
   from: "from.css",
@@ -194,7 +187,7 @@ You can specify both at the same time.
 
 ```javascript
 const fs = require("fs");
-const mqpacker = require("lipemat-css-mqpacker");
+const mqpacker = require("@lipemat/css-mqpacker");
 
 const result = mqpacker.pack(fs.readFileSync("from.css", "utf8"), {
   from: "from.css",
