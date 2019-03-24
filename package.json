@@ -1,7 +1,7 @@
 {
-  "name": "lipemat-css-mqpacker",
+  "name": "@lipemat/css-mqpacker",
   "description": "Pack same CSS media query rules into one using PostCSS",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "author": "Mat Lipe",
   "bin": {
     "mqpacker": "./bin/mqpacker.js"

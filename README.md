@@ -3,6 +3,10 @@ CSS MQPacker
 
 Pack same CSS media query rules into one using PostCSS
 
+### Installation
+```bash
+yarn add @lipemat/css-mqpacker
+```
 
 SYNOPSIS
 --------
